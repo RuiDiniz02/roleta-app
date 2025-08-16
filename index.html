@@ -44,11 +44,25 @@
         }
     </style>
 </head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EN3SKD6XWW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EN3SKD6XWW');
+</script>
+
 <body class="bg-gray-100 text-gray-900 flex flex-col items-center p-4 min-h-screen">
 
     <header class="w-full max-w-6xl mx-auto text-center py-6 lg:py-8">
         <h1 class="text-4xl md:text-5xl font-bold text-indigo-600">Custom Probability Roulette</h1>
         <p class="text-lg text-gray-600 mt-2">Create your own wheel with custom chances!</p>
+        <button id="install-app-button" class="hidden mt-4 bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+            Install App
+        </button>
     </header>
 
     <main class="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-8 flex-grow">
@@ -95,6 +109,10 @@
 
     </main>
 
+    <footer class="w-full max-w-6xl mx-auto text-center py-4 mt-8">
+        <p class="text-sm text-gray-500">Developed with ❤️ by Rui Diniz</p>
+    </footer>
+
     <!-- Winner Modal -->
     <div id="winner-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-2xl shadow-2xl p-8 text-center transform transition-all scale-95 border-4 border-indigo-400">
@@ -131,12 +149,30 @@
         const winnerName = document.getElementById('winner-name');
         const closeModalBtn = document.getElementById('close-modal');
         const spinInfoText = document.getElementById('spin-info-text');
+        const installAppButton = document.getElementById('install-app-button');
 
         let participants = [];
         const colors = ["#ef4444", "#f97316", "#84cc16", "#22c55e", "#14b8a6", "#06b6d4", "#3b82f6", "#8b5cf6", "#d946ef", "#ec4899"];
         let usedColors = new Set();
         let currentAngle = 0;
         let isSpinning = false;
+        let deferredPrompt;
+
+        // --- PWA Install Button Logic ---
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installAppButton.classList.remove('hidden');
+        });
+
+        installAppButton.addEventListener('click', async () => {
+            installAppButton.classList.add('hidden');
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+            deferredPrompt = null;
+        });
+
 
         // --- Canvas and Roulette Logic ---
         function resizeCanvas() {
