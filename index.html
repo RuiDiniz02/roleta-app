@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- PWA & SEO Meta Tags -->
     <title>Custom Probability Roulette - Chance Wheel</title>
@@ -47,7 +47,7 @@
 <body class="bg-gray-100 text-gray-900 flex flex-col items-center p-4 min-h-screen">
 
     <header class="w-full max-w-6xl mx-auto text-center py-6 lg:py-8">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Custom Probability Roulette</h1>
+        <h1 class="text-4xl md:text-5xl font-bold text-indigo-600">Custom Probability Roulette</h1>
         <p class="text-lg text-gray-600 mt-2">Create your own wheel with custom chances!</p>
     </header>
 
@@ -87,7 +87,7 @@
                 <div class="pointer"></div>
                 <canvas id="roulette"></canvas>
             </div>
-            <button id="spin-button" class="mt-8 bg-red-600 text-white text-2xl font-bold py-4 px-10 rounded-xl shadow-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 transition transform hover:scale-105 duration-200 ease-in-out disabled:bg-gray-400 disabled:cursor-not-allowed disabled:scale-100">
+            <button id="spin-button" class="mt-8 bg-gradient-to-r from-red-500 to-orange-500 text-white text-2xl font-bold py-4 px-10 rounded-xl shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-red-300 transition transform hover:scale-105 duration-200 ease-in-out disabled:bg-gray-400 disabled:cursor-not-allowed disabled:scale-100 disabled:bg-none">
                 SPIN!
             </button>
             <p id="spin-info-text" class="text-sm text-gray-500 mt-2 text-center h-5">The total probability must be 100% to spin.</p>
@@ -97,10 +97,10 @@
 
     <!-- Winner Modal -->
     <div id="winner-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-2xl shadow-2xl p-8 text-center transform transition-all scale-95">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 text-center transform transition-all scale-95 border-4 border-indigo-400">
             <h2 class="text-xl font-medium text-gray-500">The winner is...</h2>
-            <p id="winner-name" class="text-5xl font-bold my-4 text-indigo-600"></p>
-            <button id="close-modal" class="mt-6 bg-gray-200 text-gray-800 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+            <p id="winner-name" class="text-5xl font-bold my-4 text-indigo-600 drop-shadow-lg"></p>
+            <button id="close-modal" class="mt-6 bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Close
             </button>
         </div>
