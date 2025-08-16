@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
     
-    <!-- PWA Meta Tags -->
-    <title>Probability Roulette</title>
+    <!-- PWA & SEO Meta Tags -->
+    <title>Custom Probability Roulette - Chance Wheel</title>
+    <meta name="description" content="Create your own custom roulette wheel with specific probabilities for each participant. Perfect for giveaways, raffles, and random decisions.">
     <meta name="theme-color" content="#4f46e5"/>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <link rel="manifest" href="manifest.json">
@@ -43,13 +44,18 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
+<body class="bg-gray-100 text-gray-900 flex flex-col items-center p-4 min-h-screen">
 
-    <div class="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
+    <header class="w-full max-w-6xl mx-auto text-center py-6 lg:py-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Custom Probability Roulette</h1>
+        <p class="text-lg text-gray-600 mt-2">Create your own wheel with custom chances!</p>
+    </header>
+
+    <main class="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-8 flex-grow">
         
         <!-- Control Panel -->
         <div class="lg:w-1/3 bg-white p-6 rounded-2xl shadow-lg relative order-2 lg:order-1">
-            <h1 class="text-2xl font-bold mb-4 text-center">Configure the Roulette</h1>
+            <h2 class="text-2xl font-bold mb-4 text-center">Configure the Roulette</h2>
             
             <div class="space-y-4">
                 <div>
@@ -69,7 +75,7 @@
 
             <hr class="my-6 border-gray-200">
 
-            <h2 class="text-lg font-semibold mb-3">Participants</h2>
+            <h3 class="text-lg font-semibold mb-3">Participants</h3>
             <div id="participants-list" class="space-y-2 max-h-60 overflow-y-auto pr-2">
                 <!-- Participants list or instruction will be inserted here -->
             </div>
@@ -87,7 +93,7 @@
             <p id="spin-info-text" class="text-sm text-gray-500 mt-2 text-center h-5">The total probability must be 100% to spin.</p>
         </div>
 
-    </div>
+    </main>
 
     <!-- Winner Modal -->
     <div id="winner-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
