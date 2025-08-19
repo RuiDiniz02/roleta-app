@@ -128,25 +128,19 @@
         // --- Lógica de Pagamentos com Stripe ---
         const coffeeButton = document.getElementById('coffee-button');
         coffeeButton.addEventListener('click', function() {
-            // SUBSTITUA PELA SUA CHAVE PUBLICÁVEL DE TESTE DO STRIPE
-            const stripe = Stripe('pk_test_COLE_A_SUA_CHAVE_AQUI'); 
+            // Chave publicável de teste do Stripe
+            const stripe = Stripe('pk_test_51Rw1hkLK5hWMG2Ksch4gxlSi7zZNh9Lh8dB6HskGg4pgE75PUGHdAOfkaTblA7aHSAiHhio4crUvIgq2xFLofxWg00Na4yR9Yu'); 
 
             stripe.redirectToCheckout({
                 lineItems: [{
-                    price_data: {
-                        currency: 'eur',
-                        product_data: {
-                            name: 'Um café para o developer!',
-                            images: ['https://placehold.co/128x128/92400e/ffffff?text=☕'],
-                        },
-                        unit_amount: 200, // 2.00 EUR em cêntimos
-                    },
+                    // O ID do preço corresponde ao produto "Doação" de 2€ que criou no Stripe
+                    price: 'price_1RxofCLK5hWMG2KsAZIDZTQr',
                     quantity: 1,
                 }],
                 mode: 'payment',
-                // Substitua pelos links reais do seu site
-                successUrl: 'https://percentageroulette.netlify.app/?payment=success',
-                cancelUrl: 'https://percentageroulette.netlify.app/?payment=cancelled',
+                // URLs para onde o utilizador será redirecionado
+                successUrl: 'https://percentageroulette.netlify.app/success.html',
+                cancelUrl: 'https://percentageroulette.netlify.app/cancel.html',
             }).then(function (result) {
                 if (result.error) {
                     alert(result.error.message);
