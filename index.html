@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="txw2KAMUDLvi5o4EpMcbrei7PE7_UOgeyuGmKW9BVUI" />
+    
     <!-- PWA & SEO Meta Tags -->
     <title>Custom Probability Roulette - Chance Wheel</title>
     <meta name="description" content="Create your own custom roulette wheel with specific probabilities for each participant. Perfect for giveaways, raffles, and random decisions.">
     <meta name="theme-color" content="#4f46e5"/>
-    <link rel="icon" type="image/png" href="icon-192x192.png">
+    <link rel="icon" type="image/png" href="https://placehold.co/32x32/6366f1/ffffff?text=R">
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <link rel="manifest" href="manifest.json">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script> <!-- Script do Stripe -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -83,9 +84,9 @@
                 </div>
             </div>
             
-            <div class="mt-auto pt-6">
-                 <button id="install-app-button" class="hidden w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
-                    Add to home screen
+            <div class="mt-auto pt-6 border-t border-gray-200">
+                 <button id="coffee-button" class="w-full bg-amber-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-amber-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition duration-150 ease-in-out">
+                    ☕ Buy me a coffee
                 </button>
             </div>
         </div>
@@ -105,6 +106,9 @@
     </main>
 
     <footer class="w-full max-w-6xl mx-auto text-center py-4 mt-8">
+        <button id="install-app-button" class="hidden mb-4 bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+            Adicionar ao Ecrã Principal
+        </button>
         <p class="text-sm text-gray-500">Developed with ❤️ by Rui Diniz</p>
     </footer>
 
@@ -121,6 +125,30 @@
 
 
     <script>
+        // --- Lógica de Pagamentos com Stripe ---
+        const coffeeButton = document.getElementById('coffee-button');
+        coffeeButton.addEventListener('click', function() {
+            // SUBSTITUA PELA SUA CHAVE PUBLICÁVEL DE PRODUÇÃO (pk_live_...)
+            const stripe = Stripe('pk_live_51RxpffIae5tC7V3gLibcoEfJJh3okxwOKINEb67RElnsSnfcikzzB5qDGRg9GMMAxM7P1ld8J8N9QRTL5qIUU5jt00s7MCyIKc'); 
+
+            stripe.redirectToCheckout({
+                lineItems: [{
+                    // SUBSTITUA PELO SEU ID DE PREÇO DE PRODUÇÃO
+                    price: 'price_1Rxpp6Iae5tC7V3g5qn0dnmt',
+                    quantity: 1,
+                }],
+                mode: 'payment',
+                // URLs para onde o utilizador será redirecionado
+                successUrl: 'https://percentageroulette.netlify.app/success.html',
+                cancelUrl: 'https://percentageroulette.netlify.app/cancel.html',
+            }).then(function (result) {
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            });
+        });
+
+
         // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
