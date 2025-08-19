@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta name="google-site-verification" content="txw2KAMUDLvi5o4EpMcbrei7PE7_UOgeyuGmKW9BVUI" />
     <!-- PWA & SEO Meta Tags -->
     <title>Custom Probability Roulette - Chance Wheel</title>
     <meta name="description" content="Create your own custom roulette wheel with specific probabilities for each participant. Perfect for giveaways, raffles, and random decisions.">
     <meta name="theme-color" content="#4f46e5"/>
-    <link rel="icon" type="image/png" href="https://placehold.co/32x32/6366f1/ffffff?text=R">
+    <link rel="icon" type="image/png" href="icon-192x192.png">
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <link rel="manifest" href="manifest.json">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://js.stripe.com/v3/"></script> <!-- Script do Stripe -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -84,9 +83,9 @@
                 </div>
             </div>
             
-            <div class="mt-auto pt-6 border-t border-gray-200">
-                 <button id="buy-coffee-button" class="w-full bg-yellow-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition duration-150 ease-in-out">
-                    ☕ Buy me a coffee
+            <div class="mt-auto pt-6">
+                 <button id="install-app-button" class="hidden w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                    Add to home screen
                 </button>
             </div>
         </div>
@@ -106,9 +105,6 @@
     </main>
 
     <footer class="w-full max-w-6xl mx-auto text-center py-4 mt-8">
-        <button id="install-app-button" class="hidden mb-4 bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
-            Adicionar ao Ecrã Principal
-        </button>
         <p class="text-sm text-gray-500">Developed with ❤️ by Rui Diniz</p>
     </footer>
 
@@ -125,30 +121,6 @@
 
 
     <script>
-        // --- Lógica de Pagamentos com Stripe ---
-        const buyCoffeeButton = document.getElementById('buy-coffee-button');
-        buyCoffeeButton.addEventListener('click', function() {
-            // Substitua pela sua chave publicável de teste do Stripe
-            const stripe = Stripe('pk_test_51BTUDGJAJfZb9HEBwDg86TN1KNprHjkfipXyAl6D0b07IOM39Dtfnh_YOUR_KEY_HERE'); 
-
-            // Este ID corresponde a um produto "Coffee" que teria de criar no seu painel do Stripe.
-            // Pode definir um preço fixo, por exemplo, 2€.
-            const priceId = 'price_COFFEE_YOUR_PRICE_ID_HERE';
-
-            stripe.redirectToCheckout({
-                lineItems: [{ price: priceId, quantity: 1 }],
-                mode: 'payment',
-                // Substitua pelos links reais do seu site
-                successUrl: 'https://percentageroulette.netlify.app/?payment=success',
-                cancelUrl: 'https://percentageroulette.netlify.app/?payment=cancelled',
-            }).then(function (result) {
-                if (result.error) {
-                    alert(result.error.message);
-                }
-            });
-        });
-
-
         // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
