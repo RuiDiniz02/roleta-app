@@ -128,13 +128,13 @@
         // --- Lógica de Pagamentos com Stripe ---
         const coffeeButton = document.getElementById('coffee-button');
         coffeeButton.addEventListener('click', function() {
-            // Chave publicável de teste do Stripe
-            const stripe = Stripe('pk_test_51Rw1hkLK5hWMG2Ksch4gxlSi7zZNh9Lh8dB6HskGg4pgE75PUGHdAOfkaTblA7aHSAiHhio4crUvIgq2xFLofxWg00Na4yR9Yu'); 
+            // SUBSTITUA PELA SUA CHAVE PUBLICÁVEL DE PRODUÇÃO (pk_live_...)
+            const stripe = Stripe('pk_live_51RxpffIae5tC7V3gLibcoEfJJh3okxwOKINEb67RElnsSnfcikzzB5qDGRg9GMMAxM7P1ld8J8N9QRTL5qIUU5jt00s7MCyIKc'); 
 
             stripe.redirectToCheckout({
                 lineItems: [{
-                    // O ID do preço corresponde ao produto "Doação" de 2€ que criou no Stripe
-                    price: 'price_1RxofCLK5hWMG2KsAZIDZTQr',
+                    // SUBSTITUA PELO SEU ID DE PREÇO DE PRODUÇÃO
+                    price: 'price_1Rxpp6Iae5tC7V3g5qn0dnmt',
                     quantity: 1,
                 }],
                 mode: 'payment',
