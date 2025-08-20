@@ -382,9 +382,7 @@
                 startAngle += (participants[i].percentage / 100) * 2 * Math.PI;
             }
             const winnerSliceAngle = (winner.percentage / 100) * 2 * Math.PI;
-            const randomAngleInSlice = Math.random() * winnerSliceAngle;
-            
-            const targetAngle = startAngle + randomAngleInSlice;
+            const targetAngle = startAngle + (winnerSliceAngle / 2);
             const finalAngle = -(targetAngle - Math.PI / 2);
 
             const spinDuration = 5000;
