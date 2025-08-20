@@ -13,7 +13,7 @@
     <link rel="manifest" href="manifest.json">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://js.stripe.com/v3/"></script> <!-- Script do Stripe -->
+    <script src="https://js.stripe.com/v3/"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
         #roulette-container {
             width: 100%;
             max-width: 500px;
-            aspect-ratio: 1 / 1; /* Maintain a square shape */
+            aspect-ratio: 1 / 1;
             position: relative;
         }
         canvas {
@@ -37,9 +37,9 @@
             height: 0;
             border-left: 15px solid transparent;
             border-right: 15px solid transparent;
-            border-top: 30px solid #ef4444; /* red-500 */
+            border-top: 30px solid #ef4444;
             position: absolute;
-            top: -15px; /* Position above the center */
+            top: -15px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 10;
@@ -79,9 +79,7 @@
                 <hr class="my-6 border-gray-200">
 
                 <h3 class="text-lg font-semibold mb-3">Participants</h3>
-                <div id="participants-list" class="space-y-2 max-h-60 overflow-y-auto pr-2 flex-grow">
-                    <!-- Participants list or instruction will be inserted here -->
-                </div>
+                <div id="participants-list" class="space-y-2 max-h-60 overflow-y-auto pr-2 flex-grow"></div>
             </div>
             
             <div class="mt-auto pt-6 border-t border-gray-200">
@@ -125,41 +123,6 @@
 
 
     <script>
-        // --- Lógica de Pagamentos com Stripe ---
-        const coffeeButton = document.getElementById('coffee-button');
-        coffeeButton.addEventListener('click', function() {
-            // SUBSTITUA PELA SUA CHAVE PUBLICÁVEL DE PRODUÇÃO (pk_live_...)
-            const stripe = Stripe('pk_live_51RxpffIae5tC7V3gLibcoEfJJh3okxwOKINEb67RElnsSnfcikzzB5qDGRg9GMMAxM7P1ld8J8N9QRTL5qIUU5jt00s7MCyIKc'); 
-
-            stripe.redirectToCheckout({
-                lineItems: [{
-                    // SUBSTITUA PELO SEU ID DE PREÇO DE PRODUÇÃO
-                    price: 'price_1Rxpp6Iae5tC7V3g5qn0dnmt',
-                    quantity: 1,
-                }],
-                mode: 'payment',
-                // URLs para onde o utilizador será redirecionado
-                successUrl: 'https://percentageroulette.netlify.app/success.html',
-                cancelUrl: 'https://percentageroulette.netlify.app/cancel.html',
-            }).then(function (result) {
-                if (result.error) {
-                    alert(result.error.message);
-                }
-            });
-        });
-
-
-        // PWA Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js').then(registration => {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, err => {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-
         const canvas = document.getElementById('roulette');
         const ctx = canvas.getContext('2d');
         const nameInput = document.getElementById('name');
@@ -179,26 +142,7 @@
         let usedColors = new Set();
         let currentAngle = 0;
         let isSpinning = false;
-        let deferredPrompt;
 
-        // --- PWA Install Button Logic ---
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installAppButton.classList.remove('hidden');
-        });
-
-        installAppButton.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`User response to the install prompt: ${outcome}`);
-            deferredPrompt = null;
-            installAppButton.classList.add('hidden');
-        });
-
-
-        // --- Canvas and Roulette Logic ---
         function resizeCanvas() {
             const dpr = window.devicePixelRatio || 1;
             const rect = canvas.getBoundingClientRect();
@@ -230,15 +174,14 @@
                 ctx.moveTo(0, 0);
                 ctx.arc(0, 0, radius, i * sliceAngle, (i + 1) * sliceAngle);
                 ctx.closePath();
-                ctx.fillStyle = i % 2 === 0 ? '#e5e7eb' : '#d1d5db'; // Tailwind gray-200 and gray-300
+                ctx.fillStyle = i % 2 === 0 ? '#e5e7eb' : '#d1d5db';
                 ctx.fill();
             }
             
-            // Central text
-            ctx.fillStyle = '#4b5563'; // Tailwind gray-600
+            ctx.fillStyle = '#4b5563';
             ctx.textAlign = 'center';
             ctx.font = 'bold 16px Inter, sans-serif';
-            ctx.rotate(Math.PI / 2); // Un-rotate for text
+            ctx.rotate(Math.PI / 2);
             ctx.fillText('Add participants to start', 0, 0);
 
             ctx.restore();
@@ -358,6 +301,7 @@
             }
         });
 
+        // --- CORRIGIDO: Spin ---
         spinButton.addEventListener('click', () => {
             if (isSpinning) return;
             isSpinning = true;
@@ -382,6 +326,8 @@
                 startAngle += (participants[i].percentage / 100) * 2 * Math.PI;
             }
             const winnerSliceAngle = (winner.percentage / 100) * 2 * Math.PI;
+            
+            // ✅ usar o CENTRO da fatia (sem Math.random extra)
             const targetAngle = startAngle + (winnerSliceAngle / 2);
             const finalAngle = -(targetAngle - Math.PI / 2);
 
@@ -425,10 +371,7 @@
             drawRoulette();
         }
 
-        // --- Initialization ---
         window.addEventListener('resize', resizeCanvas);
-        
-        // Initial setup
         resizeCanvas();
         updateAll();
     </script>
